@@ -157,10 +157,6 @@ screen.connect_signal("request::desktop_decoration", function(s)
         textclock.opacity, taglist.opacity = math.abs(1 - v), v
         textclock.visible, taglist.visible = true, true
     end)
-    tag.connect_signal("property::tag_changed", function()
-        opacity_tween:set(1)
-        fading_timer:again()
-    end)
     tag.connect_signal("property::tag_changed", function(t)
         if t then
             if t.screen == s then
