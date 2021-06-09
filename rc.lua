@@ -15,7 +15,6 @@ beautiful.init(string.format("%s/.config/awesome/themes/%s/theme.lua", os.getenv
 local awful = require("awful")
 local bling = require("bling")
 local helper = require("utils.helper")
-local menu = require("widgets.menu")
 
 -- VARIABLES ------------------------------------------------------------------
 Vars = {
@@ -25,35 +24,40 @@ Vars = {
     launcher = os.getenv("HOME") .. "/.config/rofi/launchers/launcher.sh",
     switcher = os.getenv("HOME") .. "/.config/rofi/launchers/switcher.sh",
     terminal = "alacritty",
-    test_menu = menu {
-        items = {
-            {
-                text = " one",
-                action = function() print("one") end,
-            },
-            {" two", function() print("two") end},
-        },
-        font = "Iosevka 20",
-        --items_spacing = 5,
-        shape = beautiful.rounded_rect,
-        fg_normal = beautiful.bg_normal,
-        bg_normal = beautiful.fg_normal,
-        height = 50,
-        width = 200,
-        placement = awful.placement.next_to_mouse,
-    }
 }
 
-Vars.main_menu = awful.menu({
-        {"Terminal", Vars.terminal},
-        {
-            "Awesome", {
-                {"Restart", awesome.restart},
-                {"Exit", function() awesome.quit() end},
-            },
-            beautiful.awesome_icon,
-        }
-})
+Vars.main_menu_items = {
+    {
+        text = "Launcher",
+        icon = "/usr/share/icons/Papirus/24x24/apps/start-here-archlinux.svg",
+        action = function() awful.spawn(Vars.launcher) end,
+    },
+    {
+        text = "Terminal",
+        icon = "/usr/share/icons/Papirus/24x24/apps/Terminal.svg",
+        action = function() awful.spawn(Vars.terminal) end,
+    },
+    {
+        text = "Awesome Restart",
+        icon = "/usr/share/icons/Papirus/24x24/apps/system-restart.svg",
+        action = awesome.restart,
+        bg_focus = beautiful.colors.color1,
+        fg_focus = beautiful.colors.color15,
+    },
+    {
+        text = "Exit",
+        icon = "/usr/share/icons/Papirus/24x24/apps/system-shutdown.svg",
+        action = function() awesome.quit() end,
+        bg_focus = beautiful.colors.color9,
+        fg_focus = beautiful.colors.color15,
+    },
+}
+
+Vars.main_menu = require("widgets.menu") {
+    items = Vars.main_menu_items,
+    icon_margins = 2,
+    placement = awful.placement.next_to_mouse,
+}
 
 -- CONFIG ---------------------------------------------------------------------
 require("awful.autofocus")

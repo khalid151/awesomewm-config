@@ -19,32 +19,7 @@ screen.connect_signal("request::desktop_decoration", function(s)
     local textclock = widgets.textclock{format = "%a %b %d, %I:%M %p", font = beautiful.clock_font}
     local volume = widgets.volume { icons = beautiful.volume_icons }
     local launcher_menu = widgets.menu {
-        items = {
-            {
-                text = "Launcher",
-                icon = "/usr/share/icons/Papirus/24x24/apps/start-here-archlinux.svg",
-                action = function() awful.spawn(Vars.launcher) end,
-            },
-            {
-                text = "Terminal",
-                icon = "/usr/share/icons/Papirus/24x24/apps/Terminal.svg",
-                action = function() awful.spawn(Vars.terminal) end,
-            },
-            {
-                text = "Awesome Restart",
-                icon = "/usr/share/icons/Papirus/24x24/apps/system-restart.svg",
-                action = awesome.restart,
-                bg_focus = beautiful.colors.color1,
-                fg_focus = beautiful.colors.color15,
-            },
-            {
-                text = "Exit",
-                icon = "/usr/share/icons/Papirus/24x24/apps/system-shutdown.svg",
-                action = function() awesome.quit() end,
-                bg_focus = beautiful.colors.color9,
-                fg_focus = beautiful.colors.color15,
-            },
-        },
+        items = Vars.main_menu_items,
         icon_margins = 5,
         font = beautiful.task_switcher_font,
         shape = beautiful.rounded_rect,
