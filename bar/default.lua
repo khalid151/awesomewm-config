@@ -5,7 +5,6 @@ local wibox = require("wibox")
 local beautiful = require("beautiful")
 local modules = require("modules")
 local widgets = require("widgets")
-local colors = require("colorschemes.hybrid")
 
 -- Constants
 local ANIM_DURATION = 500 -- when switching between taglist and textclock
@@ -35,8 +34,15 @@ screen.connect_signal("request::desktop_decoration", function(s)
                 text = "Awesome Restart",
                 icon = "/usr/share/icons/Papirus/24x24/apps/system-restart.svg",
                 action = awesome.restart,
-                bg_focus = colors.color1,
-                fg_focus = colors.color15,
+                bg_focus = beautiful.colors.color1,
+                fg_focus = beautiful.colors.color15,
+            },
+            {
+                text = "Exit",
+                icon = "/usr/share/icons/Papirus/24x24/apps/system-shutdown.svg",
+                action = function() awesome.quit() end,
+                bg_focus = beautiful.colors.color9,
+                fg_focus = beautiful.colors.color15,
             },
         },
         icon_margins = 5,
@@ -47,6 +53,7 @@ screen.connect_signal("request::desktop_decoration", function(s)
         fg_normal = beautiful.task_switcher_fg,
         bg_normal = beautiful.task_switcher_bg,
         fg_focus = beautiful.task_switcher_bg,
+        bg_focus = beautiful.colors.color8,
         height = beautiful.dpi(30),
         width = beautiful.dpi(120),
         autohide = true,
