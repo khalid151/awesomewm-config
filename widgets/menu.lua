@@ -176,13 +176,18 @@ return function(args)
 
     -- Visibility functions
     popup.toggle = function(self)
-        -- Set placement here to fix jumping menu when changing image
-        if args.placement then args.placement(self) end
-        self.visible = not self.visible
-        if self.visible then keys:start() else keys:stop() end
-
         if index ~= 0 then widgets[index]:unselect() end
         index = 0 -- reset index
+
+        -- Set placement here to fix jumping menu when changing image
+        if self.visible then
+            self.visible = false
+            keys:stop()
+        else
+            if args.placement then args.placement(self) end
+            self.visible = true
+            keys:start()
+        end
     end
     popup.show = function(self)
         if args.placement then args.placement(self) end
