@@ -15,7 +15,7 @@ local icons = {
 }
 
 -- Colors ---------------------------------------------------------------------
-local colors = require('colorschemes.hybrid')
+local colors = require('colorschemes.x_dotshare')
 theme.colors = colors
 
 theme.fg_normal = colors.foreground
@@ -25,13 +25,13 @@ theme.bg_focus = colors.color0
 theme.bg_urgent = colors.color1
 theme.bg_systray = colors.background
 -- Bar colors
-theme.bar_bg = colors.background
+theme.bar_bg = colors.color0
 theme.bar_fg = colors.foreground
 theme.task_switcher_bg = colors.foreground
 theme.task_switcher_fg = colors.color0
 theme.task_switcher_indicator = colors.color1
 theme.taglist_active = colors.color3
-theme.taglist_inactive = colors.color4
+theme.taglist_inactive = colors.color6
 -- Hotkeys colors
 theme.hotkeys_bg = colors.foreground .. "d0"
 theme.hotkeys_fg = colors.background .. "f0"
