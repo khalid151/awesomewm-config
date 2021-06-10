@@ -6,6 +6,7 @@ local widgets = {
     brightness = require("widgets.brightness"),
     imagebox_button = require("widgets.imagebox_button"),
     menu = require("widgets.menu"),
+    scrollbox = require("widgets.scrollbox"),
     separator = require("widgets.separator"),
     space = wibox.widget.textbox(" "),
     systray = require("widgets.systray"),
