@@ -12,6 +12,7 @@ naughty.config.defaults.max_width = beautiful.notification_width
 naughty.config.defaults.width = beautiful.notification_width
 naughty.config.defaults.height = beautiful.notification_height
 naughty.config.defaults.position = beautiful.notification_position
+naughty.config.defaults.shape = beautiful.notification_shape
 
 -- Error handling
 naughty.connect_signal("request::display_error", function(message, startup)
@@ -22,201 +23,157 @@ naughty.connect_signal("request::display_error", function(message, startup)
     }
 end)
 
--- Create a function so it can be reused later for other templates
-local actions_template = function(fg, bg, vertical)
-    return {
-        widget = naughty.list.actions,
-        style = {
-            underline_normal = false,
-            underline_selected = false,
-        },
-        base_layout = wibox.widget {
-            spacing = 5,
-            layout = wibox.layout.flex[vertical and 'vertical' or 'horizontal'],
-        },
-        widget_template = {
-            {
-                {
-                    {
-                        id = 'text_role',
-                        align = 'center',
-                        widget = wibox.widget.textbox,
-                    },
-                    margins = 5,
-                    widget = wibox.container.margin,
-                },
-                widget = wibox.container.background,
-                bg = bg,
-                fg = fg,
-                shape = beautiful.rounded_rect,
-            },
-            margins = 5,
-            widget = wibox.container.margin,
-        },
-    }
-end
-
-local notification_template = function(args)
-    return {
+-- Templates
+local actions_template = {
+    base_layout = wibox.widget {
+        spacing = 5,
+        layout = wibox.layout.flex.horizontal,
+    },
+    widget_template = {
         {
             {
+                id = 'text_role',
+                align = 'center',
+                font = beautiful.notification_action_font,
+                widget = wibox.widget.textbox,
+            },
+            id = 'background_role',
+            widget = wibox.container.background,
+        },
+        margins = 5,
+        widget = wibox.container.margin,
+    },
+    widget = naughty.list.actions,
+}
+local notification_template = {
+    {
+        {
+            -- notification (title, body and icon)
+            {
                 {
                     {
-                        {
-                            {
-                                resize_strategy = 'scale',
-                                image = args.icon, -- If this template was reused
-                                widget = args.icon and wibox.widget.imagebox or naughty.widget.icon,
-                            },
-                            forced_height = 48,
-                            forced_width = 48,
-                            widget = wibox.container.background,
-                        },
-                        margins = 7,
-                        right = 0,
+                        naughty.widget.icon,
+                        margins = 5,
                         widget = wibox.container.margin,
                     },
-                    {
-                        {
-                            {
-                                font = args.font,
-                                text = args.title,
-                                widget = wibox.widget.textbox,
-                            },
-                            {
-                                font = beautiful.notification_font,
-                                text = args.message,
-                                widget = args.message and wibox.widget.textbox or naughty.widget.message,
-                            },
-                            wibox.widget.textbox(" "),
-                            layout = wibox.layout.fixed.vertical,
-                        },
-                        fg = args.fg,
-                        widget = wibox.container.background,
-                    },
-                    spacing = 6,
-                    layout = wibox.layout.fixed.horizontal,
+                    forced_width = beautiful.notification_icon_size,
+                    halign = 'center',
+                    valign = 'top',
+                    widget = wibox.container.place,
                 },
-                nil,
                 {
-                    actions_template(args.bg, args.fg .. 'de'),
-                    left = 15,
-                    right = 15,
-                    widget = wibox.container.margin
+                    {
+                        id = 'notification_title',
+                        widget = naughty.widget.title,
+                    },
+                    naughty.widget.message,
+                    spacing = 2,
+                    layout = wibox.layout.fixed.vertical,
                 },
-                spacing = 10,
-                layout = wibox.layout.align.vertical
+                layout = wibox.layout.fixed.horizontal,
             },
-            id = 'background_role',
-            widget = wibox.container.background,
-        },
-        width = beautiful.notification_width,
-        forced_width = beautiful.notification_width,
-        widget = wibox.container.constraint,
-    }
-end
-
-local scrot_template = function(n)
-    return {
-        {
+            nil,
+            -- notification actions
             {
-                {
-                    resize_strategy = 'scale',
-                    image = n.icon,
-                    widget = wibox.widget.imagebox,
-                },
-                {
-                    nil,
-                    nil,
-                    {
-                        {
-                            {
-                                {
-                                    image = beautiful.icons['24x24']['camera'],
-                                    forced_height = 20,
-                                    widget = wibox.widget.imagebox,
-                                },
-                                wibox.widget.textbox("Screenshot taken"),
-                                spacing = 5,
-                                layout = wibox.layout.fixed.horizontal,
-                            },
-                            margins = 5,
-                            widget = wibox.container.margin,
-                        },
-                        bg = beautiful.notification_fg_normal .. "ce",
-                        widget = wibox.container.background,
-                    },
-                    layout = wibox.layout.align.vertical,
-                },
-                layout = wibox.layout.stack,
+                actions_template,
+                left = 10, right = 10,
+                widget = wibox.container.margin,
             },
-            input_passthrough = true,
-            id = 'background_role',
-            widget = wibox.container.background,
+            layout = wibox.layout.align.vertical,
         },
-        width = beautiful.notification_width,
+        id = 'background_role',
+        widget = naughty.container.background,
         forced_width = beautiful.notification_width,
-        widget = wibox.container.constraint,
-    }
-end
+    },
+    strategy = 'min',
+    height = beautiful.notification_height,
+    widget = wibox.container.constraint,
+}
 
 -- RULES ----------------------------------------------------------------------
 ruled.notification.connect_signal("request::rules", function()
     ruled.notification.append_rule {
         rule = {},
         properties = {
+            store = true,
             timeout = 5,
-            hover_timeout = 0,
+            hover_timeout = 30,
             bg = beautiful.notification_bg_normal,
             fg = beautiful.notification_fg_normal,
             border_width = beautiful.notification_border_width,
-            callback = function(n)
-                n.store = true
-                n.icon = n:get_icon() or beautiful.notification_default_icon
-            end,
-        }
-    }
-    ruled.notification.append_rule {
-        rule = { app_name = "gopass" },
-        properties = {
-            callback = function(n)
-                n.store = false
-            end,
+            ignore = function() return Vars.do_not_disturb end,
+            icon = function(n) return n:get_icon() or beautiful.notification_default_icon end,
+            widget_template = notification_template,
         }
     }
     ruled.notification.append_rule {
         rule = { urgency = 'critical' },
         properties = {
+            store = false,
+            timeout = 0,
             bg = beautiful.notification_bg_critical,
             fg = beautiful.notification_fg_critical,
-            timeout = 0,
-            callback = function(n)
-                n.store = false
-                n.icon = n:get_icon() or beautiful.notification_error_icon
-            end,
+            icon = function(n) return n:get_icon() or beautiful.notification_error_icon end,
+            widget_template = notification_template,
         }
     }
     ruled.notification.append_rule {
         rule = { app_name = "scrot" },
         properties = {
             store = false,
-            callback = function(n)
-                n.widget_template = scrot_template(n)
-            end,
+            fg = beautiful.fg_normal,
+            widget_template = function(n) return {
+                {
+                    {
+                        {
+                            image = n.icon,
+                            widget = wibox.widget.imagebox,
+                        },
+                        {
+                            nil,
+                            nil,
+                            {
+                                {
+                                    {
+                                        {
+                                            image = beautiful.icons['24x24']['camera'],
+                                            forced_height = 20,
+                                            widget = wibox.widget.imagebox,
+                                        },
+                                        naughty.widget.title,
+                                        spacing = 5,
+                                        layout = wibox.layout.fixed.horizontal,
+                                    },
+                                    margins = 5,
+                                    widget = wibox.container.margin,
+                                },
+                                bg = beautiful.bg_normal .. "a1",
+                                widget = wibox.container.background,
+                            },
+                            layout = wibox.layout.align.vertical,
+                        },
+                        layout = wibox.layout.stack,
+                    },
+                    id = 'background_role',
+                    forced_width = beautiful.notification_width,
+                    widget = naughty.container.background,
+                },
+                strategy = 'max',
+                width = beautiful.notification_width,
+                widget = wibox.container.constraint,
+            } end,
         }
     }
 end)
 
 naughty.connect_signal('request::display', function(n)
-    if not Vars.do_not_disturb or n.urgency == "critical" then
-        naughty.layout.box {
-            notification = n,
-            widget_template = n.widget_template or notification_template {
-                font = beautiful.notification_font_title,
-                fg = n:get_fg(),
-                title = n:get_title(),
-            },
-            shape = beautiful.rounded_rect,
-        }
+    local nt = naughty.layout.box { notification = n }
+
+    -- Change title font if set by theme
+    if beautiful.notification_title_font then
+        local tb = nt.widget:get_children_by_id('notification_title')[1]
+        if tb then
+            tb:set_font(beautiful.notification_title_font)
+        end
     end
 end)

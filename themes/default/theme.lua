@@ -143,14 +143,21 @@ theme.border_width  = dpi(1)
 -- Notifications --------------------------------------------------------------
 theme.notification_padding = dpi(10)
 theme.notification_width = dpi(300)
-theme.notification_height = dpi(100)
+theme.notification_height = dpi(80)
 theme.notification_max_width = dpi(300)
-theme.notification_icon_size = dpi(100)
+theme.notification_icon_size = dpi(50)
 theme.notification_border_width = 0
 theme.notification_spacing = dpi(5)
-theme.notification_font = theme.font_name .. ' 8'
-theme.notification_font_title = 'Teko ' .. dpi(12)
+theme.notification_font = theme.font_name .. dpi(8)
+theme.notification_title_font = 'Teko ' .. dpi(14)
 theme.notification_position = "top_middle"
+theme.notification_shape = theme.rounded_rect
+theme.notification_action_underline_normal = false
+theme.notification_action_underline_selected = false
+theme.notification_action_font = theme.notification_font
+theme.notification_action_fg_normal = theme.fg_normal
+theme.notification_action_bg_normal = theme.bg_focus
+theme.notification_action_shape_normal = theme.rounded_rect
 
 gears.timer {
     timeout = 2,

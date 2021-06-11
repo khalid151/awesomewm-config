@@ -22,7 +22,7 @@ local scrot = function(args)
         single_shot = true,
         timeout = 0.3,
         callback = function()
-            naughty.notify({title = "Screenshot Taken", icon = screenshot_path, icon_size = 160})
+            naughty.notify {app_name = "scrot", title = "Screenshot Taken", icon = screenshot_path}
         end,
     }
 end
