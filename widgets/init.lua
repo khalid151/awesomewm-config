@@ -4,7 +4,6 @@ local wibox = require("wibox")
 local widgets = {
     battery = require("widgets.battery"),
     brightness = require("widgets.brightness"),
-    imagebox_button = require("widgets.imagebox_button"),
     menu = require("widgets.menu"),
     scrollbox = require("widgets.scrollbox"),
     separator = require("widgets.separator"),

@@ -2,36 +2,8 @@ local awful = require("awful")
 local gears = require("gears")
 local wibox = require("wibox")
 local beautiful = require("beautiful")
-local imagebox_button = require("widgets.imagebox_button")
 
 local titlebar = {}
-
-local get_max_icon = function(first, second)
-    if client.focus ~= nil then
-        return client.focus.maximized and first or second
-    else
-        return second
-    end
-end
-
-titlebar.minimize = imagebox_button {
-    action = function() client.focus.minimized = not client.focus.minimized end,
-    image = beautiful.titlebar_minimize_button_focus,
-    hover_image = beautiful.titlebar_minimize_button_focus_hover,
-    click_image = beautiful.titlebar_minimize_button_focus,
-}
-titlebar.maximize = imagebox_button {
-    action = function() client.focus.maximized = not client.focus.maximized end,
-    image = function() return get_max_icon(beautiful.titlebar_maximized_button_focus_active, beautiful.titlebar_maximized_button_focus_inactive) end,
-    hover_image = function() return get_max_icon(beautiful.titlebar_maximized_button_focus_active_hover, beautiful.titlebar_maximized_button_focus_inactive_hover) end,
-    click_image = function() return get_max_icon(beautiful.titlebar_maximized_button_focus_active, beautiful.titlebar_maximized_button_focus_inactive) end,
-}
-titlebar.close = imagebox_button {
-    action = function() client.focus:kill() end,
-    image = beautiful.titlebar_close_button_focus,
-    hover_image = beautiful.titlebar_close_button_focus_hover,
-    click_image = beautiful.titlebar_close_button_focus_press,
-}
 
 titlebar.generate = function(c)
     local buttons = gears.table.join(
