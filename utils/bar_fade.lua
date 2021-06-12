@@ -80,7 +80,7 @@ awesome.connect_signal("check_gaps", function()
             if current_tag.useless_gap > 0 then
                 set_clients_on_screen(screen, function(c) return c.maximized end)
             else
-                if beautiful.master_fill_policy == "master_width_factor"
+                if current_tag.master_fill_policy == "master_width_factor"
                     and #screen.clients == 1
                     and layout_name ~= "max" then
                     set_opacity(screen, opacity.low)

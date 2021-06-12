@@ -3,10 +3,20 @@ local gears = require("gears")
 
 local helper = {}
 
+helper.aspect_ratio = function(screen)
+    local geometry = screen.geometry
+    return geometry.width / geometry.height
+end
+
 helper.add_tags = function(screen, args)
     for _,t in ipairs(args) do
         if not t.properties then t.properties = {} end
         t.properties['screen'] = screen
+        if not t.properties['master_fill_policy'] then
+            if helper.aspect_ratio(screen) >= 2.37 then
+                t.properties.master_fill_policy = 'master_width_factor'
+            end
+        end
         awful.tag.add(t.name, t.properties)
     end
 end
