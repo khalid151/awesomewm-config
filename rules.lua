@@ -122,6 +122,9 @@ ruled.client.connect_signal("request::rules", function()
                     end
                     c:connect_signal("property::geometry", remap)
                     c:connect_signal("focus", remap)
+                    c:connect_signal("unfocus", function()
+                        c.screen.needs_wacom_focus = true
+                    end)
                 end
             end,
         }

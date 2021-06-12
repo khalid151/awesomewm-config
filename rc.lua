@@ -275,7 +275,10 @@ tag.connect_signal("property::tag_changed", function()
 
     if beautiful.wacom_focus then
         if tag.name ~= "art" then
-            helper.wacom_focus.screen(tag.screen)
+            if tag.screen.needs_wacom_focus then
+                tag.screen.needs_wacom_focus = false
+                helper.wacom_focus.screen(tag.screen)
+            end
         end
     end
 end)
