@@ -3,6 +3,26 @@ local gears = require("gears")
 
 local helper = {}
 
+helper.wacom_focus = {
+    client = function(c)
+        awful.spawn("wacom_focus -w " .. c.window)
+    end,
+    screen = function(s)
+        local screen = s or awful.screen.focused()
+        local name = gears.table.keys(screen.outputs)[1]
+        if name then
+            awful.spawn.with_line_callback("wacom_focus -l", {
+                stdout = function(o)
+                    if o:match(name) then
+                        local m = o:match("^(%d+):")
+                        awful.spawn("wacom_focus -m " .. m)
+                    end
+                end,
+            })
+        end
+    end,
+}
+
 helper.aspect_ratio = function(screen)
     local geometry = screen.geometry
     return geometry.width / geometry.height

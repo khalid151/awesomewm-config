@@ -222,4 +222,7 @@ theme.arrow_icon_left = icons.misc .. 'arrow_left.png'
 theme.arrow_icon_right = icons.misc .. 'arrow_right.png'
 theme.distro_icon = icons.misc .. 'arch.png'
 
+-- Others ---------------------------------------------------------------------
+theme.wacom_focus = true
+
 return theme

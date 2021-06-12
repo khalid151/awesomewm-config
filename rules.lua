@@ -111,7 +111,20 @@ ruled.client.connect_signal("request::rules", function()
                 "krita",
             },
         },
-        properties = { tag = "art" }
+        properties = {
+            tag = "art",
+            callback = function(c)
+                if beautiful.wacom_focus then
+                    local remap = function()
+                        if c.first_tag.name == "art" then
+                            helper.wacom_focus.client(c)
+                        end
+                    end
+                    c:connect_signal("property::geometry", remap)
+                    c:connect_signal("focus", remap)
+                end
+            end,
+        }
     }
     ruled.client.append_rule {
         rule = {class = "Xfdesktop", type = "desktop"},

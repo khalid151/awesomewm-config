@@ -85,8 +85,8 @@ awful.keyboard.append_global_keybindings(add_keybindings {
     -- Desktop
     {"Print", function() scrot() end, "Take a screenshot", "Desktop"},
     {"shift+Print", function() scrot('-u') end, "Screenshot of focused client", "Desktop"},
-    {"super+alt+j", function() awful.screen.focus_relative(1) end, "Focus next screen", "Desktop"},
-    {"super+alt+k", function() awful.screen.focus_relative(-1) end, "Focus previous screen", "Desktop"},
+    {"super+alt+j", function() awful.screen.focus_relative(1); awful.screen.focused():emit_signal("focus") end, "Focus next screen", "Desktop"},
+    {"super+alt+k", function() awful.screen.focus_relative(-1); awful.screen.focused():emit_signal("focus") end, "Focus previous screen", "Desktop"},
     {"super+shift+d", function() Vars.do_not_disturb = not Vars.do_not_disturb; awesome.emit_signal("modules::notification_dnd") end, "Toggle DND", "Desktop"},
     {"super+n", function() awesome.emit_signal("modules::notification_center_toggle") end, "Toggle notification center", "Desktop"},
     {"super+shift+n", function() naughty.destroy_all_notifications(); awesome.emit_signal("modules::notification_clear") end, "Dismiss notifications", "Desktop"},

@@ -272,7 +272,21 @@ tag.connect_signal("property::tag_changed", function()
     end
 
     update_clients_on_tag(tag)
+
+    if beautiful.wacom_focus then
+        if tag.name ~= "art" then
+            helper.wacom_focus.screen(tag.screen)
+        end
+    end
 end)
+
+if beautiful.wacom_focus then
+    screen.connect_signal("focus", function(s)
+        if s.selected_tag.name ~= "art" then
+            helper.wacom_focus.screen(s)
+        end
+    end)
+end
 
 -- STARTUP --------------------------------------------------------------------
 awful.spawn.once("xmodmap " .. os.getenv("HOME") .. "/.xmodmap")
