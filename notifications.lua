@@ -1,6 +1,7 @@
 local naughty = require("naughty")
 local beautiful = require("beautiful")
 
+local awful = require("awful")
 local wibox = require("wibox")
 local ruled = require("ruled")
 
@@ -104,6 +105,9 @@ ruled.notification.connect_signal("request::rules", function()
             ignore = function() return Vars.do_not_disturb end,
             icon = function(n) return n:get_icon() or beautiful.notification_default_icon end,
             widget_template = notification_template,
+            callback = function(n)
+                awful.spawn.easy_async("date +'%I:%M %p'", function(o) n.time = o end)
+            end
         }
     }
     ruled.notification.append_rule {

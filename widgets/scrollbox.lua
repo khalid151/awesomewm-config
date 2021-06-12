@@ -38,6 +38,15 @@ return function(args)
         widget.item_height = widget.forced_height or self.widget.item_height
         self.widget.last_y = widget.item_height + widget._original_y + self.widget.spacing
 
+        -- Connect movement signal
+        self.widget:connect_signal("widget::move", function(_, delta)
+            if widget then
+                widget.point.y = widget._original_y + delta
+                self.widget:move_widget(widget, widget.point)
+            end
+        end)
+
+        -- add to layout
         if append_widgets then
             self.widget:add(widget)
             self.widget:emit_signal("widget::move", -1 * scroll.position)
@@ -45,13 +54,6 @@ return function(args)
             self.widget:insert(1, widget)
             self.widget:emit_signal("layout::reinit")
         end
-
-        self.widget:connect_signal("widget::move", function(_, delta)
-            if widget then
-                widget.point.y = widget._original_y + delta
-                self.widget:move_widget(widget, widget.point)
-            end
-        end)
     end
 
     widget.remove_widget = function(self, widget)
@@ -63,6 +65,13 @@ return function(args)
             end
         end
         self.widget:set_children(widgets)
+        self.widget:emit_signal("widget::redraw_needed")
+        self.widget:emit_signal("layout::reinit")
+        self.widget:emit_signal("widget::removed")
+    end
+
+    widget.remove_all_widgets = function(self)
+        self.widget:set_children({})
         self.widget:emit_signal("widget::redraw_needed")
         self.widget:emit_signal("layout::reinit")
         self.widget:emit_signal("widget::removed")

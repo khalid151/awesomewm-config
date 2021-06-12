@@ -87,7 +87,9 @@ awful.keyboard.append_global_keybindings(add_keybindings {
     {"shift+Print", function() scrot('-u') end, "Screenshot of focused client", "Desktop"},
     {"super+alt+j", function() awful.screen.focus_relative(1) end, "Focus next screen", "Desktop"},
     {"super+alt+k", function() awful.screen.focus_relative(-1) end, "Focus previous screen", "Desktop"},
-    {"super+shift+d", function() Vars.do_not_disturb = not Vars.do_not_disturb; awesome.emit_signal("widgets::notification") end, "Toggle DND", "Desktop"},
+    {"super+shift+d", function() Vars.do_not_disturb = not Vars.do_not_disturb; awesome.emit_signal("modules::notification_dnd") end, "Toggle DND", "Desktop"},
+    {"super+n", function() awesome.emit_signal("modules::notification_center_toggle") end, "Toggle notification center", "Desktop"},
+    {"super+shift+n", function() naughty.destroy_all_notifications(); awesome.emit_signal("modules::notification_clear") end, "Dismiss notifications", "Desktop"},
     -- Client
     {"super+j", function() awful.client.focus.byidx(1) end, "Focus next client", "Client"},
     {"super+k", function() awful.client.focus.byidx(-1) end, "Focus previous client", "Client"},
@@ -134,7 +136,7 @@ awful.mouse.append_global_mousebindings({
 -- Client bindings
 client.connect_signal("request::default_keybindings", function()
 awful.keyboard.append_client_keybindings(add_keybindings {
-    {"super+shift+n", function(c) c:move_to_screen() end, "Move to screen", "Client"},
+    {"super+shift+m", function(c) c:move_to_screen() end, "Move to screen", "Client"},
     {"super+o", function(c) c.ontop = not c.ontop end, "Toggle window ontop", "Client"},
     {"super+shift+q", function(c) c:kill() end, "Kill focused window", "Client"},
     {"alt+F4", function(c) c:kill() end, "Kill focused window", "Client"},
