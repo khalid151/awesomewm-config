@@ -48,7 +48,9 @@ theme.notification_bg_normal = colors.foreground .. "fe"
 theme.notification_fg_normal = colors.background
 theme.notification_bg_critical = "#ff3838"
 theme.notification_fg_critical = "#ffffff"
-theme.notification_center_bg = colors.background .. "80"
+theme.notification_center_bg = colors.background .. "d0"
+theme.notification_center_header_bg = colors.color0
+theme.notification_center_header_fg = colors.foreground
 
 -- Settings -------------------------------------------------------------------
 theme.icon_theme = 'Papirus'
@@ -158,6 +160,16 @@ theme.notification_action_font = theme.notification_font
 theme.notification_action_fg_normal = theme.fg_normal
 theme.notification_action_bg_normal = theme.bg_focus
 theme.notification_action_shape_normal = theme.rounded_rect
+-- Notification center
+theme.notification_center_header_font = 'Teko ' .. dpi(14)
+theme.notification_center_height = dpi(400)
+theme.notification_center_header_height = dpi(30)
+theme.notification_center_header_icon_dnd = "/usr/share/icons/Papirus/24x24/emblems/emblem-rabbitvcs-ignored.svg"
+theme.notification_center_header_icon_dismiss = "/usr/share/icons/Papirus/24x24/emblems/checkmark.svg"
+theme.notification_center_icon_empty = icons.misc .. 'notification_empty.png'
+theme.notification_center_icon_unread = icons.misc .. 'notification_unread.png'
+theme.notification_center_icon_dnd_empty = icons.misc .. 'notification_dnd_empty.png'
+theme.notification_center_icon_dnd_unread = icons.misc .. 'notification_dnd_unread.png'
 
 gears.timer {
     timeout = 2,

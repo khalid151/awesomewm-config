@@ -9,7 +9,6 @@ local widgets = require("widgets")
 -- Constants
 local ANIM_DURATION = 500 -- when switching between taglist and textclock
 local ANIM_TIMEOUT = 2 -- how long it takes to switch display textclock
-beautiful.bar_height = 35
 
 -- TODO: create a layoutbox widget + create their icons
 screen.connect_signal("request::desktop_decoration", function(s)
@@ -69,6 +68,18 @@ screen.connect_signal("request::desktop_decoration", function(s)
             toggle_bg = true,
             bg = beautiful.bar_bg,
             shape = beautiful.rounded_rect,
+        })
+        table.insert(rhs_bar_widgets, 2, modules.notification_center {
+            screen = s,
+            shape = beautiful.rounded_rect,
+            placement = function(d)
+                return awful.placement.top_right(d, {
+                    offset = {
+                        x = -5,
+                        y = beautiful.bar_height + 5,
+                    }
+                })
+            end,
         })
     end
 

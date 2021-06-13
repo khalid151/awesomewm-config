@@ -115,6 +115,7 @@ ruled.notification.connect_signal("request::rules", function()
         properties = {
             store = false,
             timeout = 0,
+            ignore = false,
             bg = beautiful.notification_bg_critical,
             fg = beautiful.notification_fg_critical,
             icon = function(n) return n:get_icon() or beautiful.notification_error_icon end,
