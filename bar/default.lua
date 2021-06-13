@@ -28,8 +28,8 @@ screen.connect_signal("request::desktop_decoration", function(s)
         bg_normal = beautiful.task_switcher_bg,
         fg_focus = beautiful.task_switcher_bg,
         bg_focus = beautiful.colors.color8,
-        height = beautiful.dpi(30),
-        width = beautiful.dpi(120),
+        height = 30,
+        width = 120,
         autohide = true,
         screen = s,
     }

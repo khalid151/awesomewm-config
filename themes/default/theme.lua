@@ -3,10 +3,8 @@ local gears = require("gears")
 local helper = require("utils.helper")
 
 local xresources = beautiful.xresources
-local dpi = xresources.apply_dpi
 
 local theme = {}
-theme.dpi = dpi
 
 local icons = {
     devices = beautiful.theme_path .. "/devices/",
@@ -56,10 +54,10 @@ theme.notification_center_header_fg = colors.foreground
 theme.icon_theme = 'Papirus'
 theme.icons = helper.cache_icons(theme.icon_theme, '24x24;48x48')
 theme.font_name = "Iosevka "
-theme.font = theme.font_name .. dpi(8)
+theme.font = theme.font_name .. '10'
 theme.useless_gap = 0
-theme.widget_icon_margin = dpi(5)
-theme.systray_size = dpi(24)
+theme.widget_icon_margin = 5
+theme.systray_size = 24
 
 theme.set_wallpaper = function()
     local awful = require("awful")
@@ -73,7 +71,7 @@ end
 
 -- Bar config -----------------------------------------------------------------
 theme.bar = "bar.default"
-theme.bar_height = dpi(35)
+theme.bar_height = 35
 theme.bar_position = "top"
 theme.bar_ontop = false
 theme.bar_min_opacity = 0
@@ -81,9 +79,9 @@ theme.bar_max_opacity = 255
 theme.bar_fade_duration = 300
 theme.toggle_bar_opacity = true
 
-theme.task_switcher_font = "Teko " .. dpi(10)
+theme.task_switcher_font = "Teko " .. '10'
 
-theme.clock_font = theme.font_name .. dpi(9)
+theme.clock_font = theme.font_name .. '9'
 
 -- Hotkeys config -------------------------------------------------------------
 theme.hotkeys_shape = theme.rounded_rect
@@ -93,7 +91,7 @@ theme.hotkeys_border_width = 0
 theme.titlebars_enabled = false
 theme.titlebars_on_floating = true
 theme.titlebar_autohide_controls = false
-theme.titlebar_size = dpi(24)
+theme.titlebar_size = 24
 theme.titlebar_font = theme.font
 theme.titlebar_title_align = "center"
 theme.titlebar_position = "top"
@@ -103,8 +101,8 @@ theme.titlebar_config = {
     font = theme.titlebar_font
 }
 
-theme.titlebar_icon_margins = dpi(4)
-theme.titlebar_icon_spacing = dpi(2)
+theme.titlebar_icon_margins = 4
+theme.titlebar_icon_spacing = 2
 
 -- close icons
 theme.titlebar_close_button_focus  = icons.titlebar .. 'close_normal.png'
@@ -140,18 +138,18 @@ theme.titlebar_sticky_button_normal_active = icons.titlebar .. "pin.png"
 theme.titlebar_sticky_button_focus_active  = icons.titlebar .. "pin.png"
 theme.titlebar_sticky_button_focus_active_hover  = icons.titlebar .. "pin_hover.png"
 
-theme.border_width  = dpi(1)
+theme.border_width  = 1
 
 -- Notifications --------------------------------------------------------------
-theme.notification_padding = dpi(10)
-theme.notification_width = dpi(300)
-theme.notification_height = dpi(80)
-theme.notification_max_width = dpi(300)
-theme.notification_icon_size = dpi(50)
+theme.notification_padding = 10
+theme.notification_width = 300
+theme.notification_height = 80
+theme.notification_max_width = 300
+theme.notification_icon_size = 50
 theme.notification_border_width = 0
-theme.notification_spacing = dpi(5)
-theme.notification_font = theme.font_name .. dpi(8)
-theme.notification_title_font = 'Teko ' .. dpi(14)
+theme.notification_spacing = 5
+theme.notification_font = theme.font_name .. '8'
+theme.notification_title_font = 'Teko ' .. '14'
 theme.notification_position = "top_middle"
 theme.notification_shape = theme.rounded_rect
 theme.notification_action_underline_normal = false
@@ -161,9 +159,9 @@ theme.notification_action_fg_normal = theme.fg_normal
 theme.notification_action_bg_normal = theme.bg_focus
 theme.notification_action_shape_normal = theme.rounded_rect
 -- Notification center
-theme.notification_center_header_font = 'Teko ' .. dpi(14)
-theme.notification_center_height = dpi(400)
-theme.notification_center_header_height = dpi(30)
+theme.notification_center_header_font = 'Teko ' .. '14'
+theme.notification_center_height = 400
+theme.notification_center_header_height = 30
 theme.notification_center_header_icon_dnd = "/usr/share/icons/Papirus/24x24/emblems/emblem-rabbitvcs-ignored.svg"
 theme.notification_center_header_icon_dismiss = "/usr/share/icons/Papirus/24x24/emblems/checkmark.svg"
 theme.notification_center_icon_empty = icons.misc .. 'notification_empty.png'
@@ -183,8 +181,8 @@ gears.timer {
 
 -- Menus ----------------------------------------------------------------------
 theme.menu_border_width = 0
-theme.menu_height = dpi(20)
-theme.menu_width  = dpi(100)
+theme.menu_height = 20
+theme.menu_width  = 120
 
 -- Icons ----------------------------------------------------------------------
 theme.tag_icon = {
