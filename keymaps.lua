@@ -90,6 +90,10 @@ awful.keyboard.append_global_keybindings(add_keybindings {
     {"super+shift+d", function() Vars.do_not_disturb = not Vars.do_not_disturb; awesome.emit_signal("modules::notification_dnd") end, "Toggle DND", "Desktop"},
     {"super+n", function() awesome.emit_signal("modules::notification_center_toggle") end, "Toggle notification center", "Desktop"},
     {"super+shift+n", function() naughty.destroy_all_notifications(); awesome.emit_signal("modules::notification_clear") end, "Dismiss notifications", "Desktop"},
+    -- Media
+    {"XF86AudioPlay", spawn("playerctl play-pause"), "Play\\Pause music", "Media"},
+    {"XF86AudioNext", spawn("playerctl next"), "Next track", "Media"},
+    {"XF86AudioPrev", spawn("playerctl next"), "Previous track", "Media"},
     -- Client
     {"super+j", function() awful.client.focus.byidx(1) end, "Focus next client", "Client"},
     {"super+k", function() awful.client.focus.byidx(-1) end, "Focus previous client", "Client"},

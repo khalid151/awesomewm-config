@@ -127,7 +127,7 @@ screen.connect_signal("request::desktop_decoration", function(s)
                     l.tile,
                     l.max,
                 },
-                master_width_factor = 0.8,
+                master_width_factor = 0.7,
             }
         },
         {
