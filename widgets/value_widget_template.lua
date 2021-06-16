@@ -30,6 +30,7 @@ return function(args)
             visible = args.show_text or false,
             widget = wibox.widget.textbox
         },
+        buttons = args.buttons,
         held_percent = 0,
         spacing = args.spacing or 2,
         icons = args.icons,

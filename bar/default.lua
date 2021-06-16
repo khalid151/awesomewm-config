@@ -16,7 +16,12 @@ screen.connect_signal("request::desktop_decoration", function(s)
     local battery
     local brightness
     local textclock = widgets.textclock{format = "%a %b %d, %I:%M %p", font = beautiful.clock_font}
-    local volume = widgets.volume { icons = beautiful.volume_icons }
+    local volume = widgets.volume {
+        icons = beautiful.volume_icons,
+        buttons = {
+            awful.button({}, 3, nil, function() Vars.pa_volume:toggle() end),
+        }
+    }
     local launcher_menu = widgets.menu {
         items = Vars.main_menu_items,
         icon_margins = 5,

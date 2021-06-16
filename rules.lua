@@ -87,6 +87,16 @@ ruled.client.connect_signal("request::rules", function()
         }
     }
     ruled.client.append_rule {
+        rule = {
+            class = "firefox",
+            name = "Picture-in-Picture",
+        },
+        properties = {
+            sticky = true,
+            ontop = true,
+        }
+    }
+    ruled.client.append_rule {
         id = "chat",
         rule_any = {
             type = "normal",
@@ -170,6 +180,30 @@ ruled.client.connect_signal("request::rules", function()
         },
         properties = {
             placement = awful.placement.no_offscreen,
+        }
+    }
+    ruled.client.append_rule {
+        id = 'volume',
+        rule = { class = 'Pavucontrol' },
+        properties = {
+            floating = true,
+            skip_taskbar = true,
+            sticky = true,
+            titlebars_enabled = false,
+            height = 400,
+            width = 300,
+            callback = function(c)
+                c:connect_signal("focus", function()
+                    c.height = 400
+                    c.width = 300
+                    awful.placement.top_right(c, {
+                        offset = {
+                            x = -5,
+                            y = beautiful.bar_height + 5,
+                        }
+                    })
+                end)
+            end,
         }
     }
 end)
