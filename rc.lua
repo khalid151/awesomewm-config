@@ -134,7 +134,12 @@ screen.connect_signal("request::desktop_decoration", function(s)
             name = "games",
             properties = {
                 icon = beautiful.tag_icon.games,
-                layout = l.max,
+                layout = l.max.fullscreen,
+                layouts = {
+                    l.tile,
+                    l.max.fullscreen,
+                },
+                master_width_factor = 0.725,
             }
         },
         {

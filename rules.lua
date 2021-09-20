@@ -79,7 +79,10 @@ ruled.client.connect_signal("request::rules", function()
         }
     }
     ruled.client.append_rule {
-        rule = {class = "firefox"},
+        rule_any = {
+            class = { "firefox", "Chromium-browser-chromium" },
+            instance = { "brave-browser" },
+        },
         properties = {
             tag = "internet",
             screen = 1,
@@ -87,13 +90,13 @@ ruled.client.connect_signal("request::rules", function()
         }
     }
     ruled.client.append_rule {
-        rule = {
-            class = "firefox",
-            name = "Picture-in-Picture",
+        rule_any = {
+            name = { "Picture-in-Picture", "Picture in picture" },
         },
         properties = {
             sticky = true,
             ontop = true,
+            floating = true,
         }
     }
     ruled.client.append_rule {
@@ -150,7 +153,7 @@ ruled.client.connect_signal("request::rules", function()
         }
     }
     ruled.client.append_rule {
-        rule = { class = "Steam" },
+        rule_any = { class = {"steam", "Steam"}},
         properties = {
             tag = "games",
             titlebars_enabled = false,
