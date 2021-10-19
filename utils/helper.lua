@@ -1,7 +1,12 @@
 local awful = require("awful")
+local naughty = require("naughty")
 local gears = require("gears")
 
 local helper = {}
+
+helper.debug = function(string)
+    naughty.notify { title = "Debug", text = string }
+end
 
 helper.wacom_focus = {
     client = function(c)
@@ -13,7 +18,7 @@ helper.wacom_focus = {
         if name then
             awful.spawn.with_line_callback("wacom_focus -l", {
                 stdout = function(o)
-                    if o:match(name) then
+                    if o:match(name:gsub("-", "%%-")) then
                         local m = o:match("^(%d+):")
                         awful.spawn("wacom_focus -m " .. m)
                     end
