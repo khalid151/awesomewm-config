@@ -21,7 +21,7 @@ Vars = {
     do_not_disturb = false, -- Notifications display state
     editor = os.getenv("EDITOR") or "vi",
     environment = environment, -- On desktop or laptop
-    launcher = os.getenv("HOME") .. "/.config/rofi/launchers/launcher.sh",
+    launcher = "rofi -show drun",
     switcher = os.getenv("HOME") .. "/.config/rofi/launchers/switcher.sh",
     terminal = "alacritty",
 }
