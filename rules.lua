@@ -1,7 +1,12 @@
 local awful = require("awful")
+local gears = require("gears")
 local beautiful = require("beautiful")
 local helper = require("utils.helper")
 local ruled = require("ruled")
+
+local focus_button = awful.button({}, 1, function(c)
+    c:emit_signal("request::activate", "mouse_click", {raise = true})
+end)
 
 ruled.client.connect_signal("request::rules", function()
     -- For all clients
@@ -42,6 +47,7 @@ ruled.client.connect_signal("request::rules", function()
     ruled.client.append_rule {
         rule = { class = "Scratchpad" },
         properties = {
+            buttons = { focus_button },
             skip_taskbar = true,
             ontop = true,
             titlebars_enabled = false,
@@ -193,17 +199,32 @@ ruled.client.connect_signal("request::rules", function()
             height = 400,
             width = 300,
             callback = function(c)
-                c:connect_signal("focus", function()
+                local place = function()
                     c.height = 400
-                    c.width = 300
+                    c.width = 400
                     awful.placement.top_right(c, {
                         offset = {
                             x = -5,
                             y = beautiful.bar_height + 5,
                         }
                     })
-                end)
+                end
+                gears.timer {
+                    autostart = true,
+                    timeout = 0.05,
+                    single_shot = true,
+                    callback = place,
+                }
+                c:connect_signal("focus", place)
             end,
+        }
+    }
+    ruled.client.append_rule {
+        id = 'pico8',
+        rule = { class = "pico8" },
+        properties = {
+            width = 512,
+            height = 512,
         }
     }
 end)
