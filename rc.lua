@@ -310,6 +310,7 @@ Vars.scratchpad = bling.module.scratchpad:new {
 Vars.pa_volume = bling.module.scratchpad:new {
     command = "pavucontrol",
     rule = { class = 'Pavucontrol' },
+    geometry = {x=0, y=0, height=400, width=300},
     sticky = true,
     floating = true,
 }

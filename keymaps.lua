@@ -90,6 +90,7 @@ awful.keyboard.append_global_keybindings(add_keybindings {
     {"super+shift+d", function() Vars.do_not_disturb = not Vars.do_not_disturb; awesome.emit_signal("modules::notification_dnd") end, "Toggle DND", "Desktop"},
     {"super+n", function() awesome.emit_signal("modules::notification_center_toggle") end, "Toggle notification center", "Desktop"},
     {"super+shift+n", function() naughty.destroy_all_notifications(); awesome.emit_signal("modules::notification_clear") end, "Dismiss notifications", "Desktop"},
+    {"super+shift+s", function() Vars.pa_volume:toggle() end, "Toggle volume controls panel", "Desktop"},
     -- Media
     {"XF86AudioPlay", spawn("playerctl play-pause"), "Play\\Pause music", "Media"},
     {"XF86AudioNext", spawn("playerctl next"), "Next track", "Media"},
