@@ -215,16 +215,10 @@ return function(args)
             tasklist.visible = not tasklist.visible
             focused_task.visible = not tasklist.visible
             client.emit_signal("check_focused")
-            if tasklist.visible then
-                if not double_check.started then double_check:start() end
-            else
-                if double_check.started then double_check:stop() end
-            end
         end,
     }
 
     local timers_starter = function(start)
-        if not double_check.started then double_check:start() end
         if start then
             if not switch_timer.started then switch_timer:start() end
         else
