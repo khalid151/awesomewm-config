@@ -79,6 +79,7 @@ awful.keyboard.append_global_keybindings(add_keybindings {
     {"XF86MonBrightnessUp", spawn("light -A 10", "widgets::brightness"), "Increase brightness", "System"},
     {"XF86MonBrightnessDown", spawn("light -U 10", "widgets::brightness"), "Decrease brightness", "System"},
     {"XF86AudioMute", spawn("pactl set-sink-mute @DEFAULT_SINK@ toggle", "widgets::volume"), "System"},
+    {"XF86AudioMicMute", spawn("pactl set-source-mute @DEFAULT_SOURCE@ toggle", "widgets::volume"), "System"},
     {"XF86AudioRaiseVolume", spawn("pamixer -i 5", "widgets::volume"), "System"},
     {"XF86AudioLowerVolume", spawn("pamixer -d 5", "widgets::volume"), "System"},
     {"super+shift+x", spawn("i3lock -c 24283b"), "System"},
