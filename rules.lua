@@ -167,7 +167,7 @@ ruled.client.connect_signal("request::rules", function()
     }
     ruled.client.append_rule {
         id = 'games',
-        rule = { class = "steam_app" },
+        rule_any = { class = { "steam_app", "Chowdren" } },
         properties = {
             tag = "games",
             callback = function(c)
