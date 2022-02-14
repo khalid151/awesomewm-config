@@ -55,7 +55,7 @@ theme.icon_theme = 'Papirus'
 theme.icons = helper.cache_icons(theme.icon_theme, '24x24;48x48')
 theme.font_name = "Iosevka "
 theme.font = theme.font_name .. '10'
-theme.useless_gap = 0
+theme.useless_gap = 5
 theme.widget_icon_margin = 5
 theme.systray_size = 24
 
