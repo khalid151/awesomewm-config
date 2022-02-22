@@ -123,6 +123,12 @@ ruled.notification.connect_signal("request::rules", function()
         }
     }
     ruled.notification.append_rule {
+        rule = { app_name = "gopass" },
+        properties = {
+            store = false,
+        }
+    }
+    ruled.notification.append_rule {
         rule = { app_name = "scrot" },
         properties = {
             store = false,
