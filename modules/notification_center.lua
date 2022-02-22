@@ -120,12 +120,26 @@ return function(args)
         height = (args.height or beautiful.notification_center_height) - beautiful.notification_center_header_height,
     }
 
+    local no_notification_text = wibox.widget {
+        {
+            text = "No unread notifications",
+            widget = wibox.widget.textbox,
+        },
+        halign = 'center',
+        valign = 'center',
+        widget = wibox.container.place,
+    }
+
     local popup = awful.popup {
         widget = {
             {
                 header,
                 {
-                    notifications,
+                    {
+                        notifications,
+                        no_notification_text,
+                        layout = wibox.layout.stack,
+                    },
                     margins = 5,
                     widget = wibox.container.margin,
                 },
@@ -216,6 +230,7 @@ return function(args)
             Vars.do_not_disturb and 'dnd_' or '',
             count > 0 and 'unread' or 'empty'
         )]
+        no_notification_text.visible = not (count > 0)
     end)
 
     naughty.connect_signal("added", function(n)
