@@ -106,4 +106,25 @@ helper.delayed_focus_signal = gears.timer {
     end
 }
 
+helper.insert_into_table_by_id = function(table, items, id)
+    local found = false
+    local function rec(_table, _items, _id)
+        if _table.id == _id then
+            for key, value in pairs(_items) do
+                _table[key] = value
+            end
+            found = true
+            return
+        end
+
+        for _,v in ipairs(_table) do
+            if found then break end
+            if type(v) == 'table' then
+                helper.insert_into_table_by_id(v, _items, _id)
+            end
+        end
+    end
+    rec(table, items, id)
+end
+
 return helper
