@@ -75,6 +75,7 @@ screen.connect_signal("request::desktop_decoration", function(s)
             shape = beautiful.rounded_rect,
         })
         table.insert(rhs_bar_widgets, 2, modules.notification_center {
+            autohide = true,
             screen = s,
             shape = beautiful.rounded_rect,
             placement = function(d)

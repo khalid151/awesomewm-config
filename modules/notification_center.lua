@@ -166,6 +166,7 @@ return function(args)
         icon_dnd_empty = args.icon_dnd_empty or beautiful.notification_center_icon_dnd_empty,
         icon_dnd_unread = args.icon_dnd_unread or beautiful.notification_center_icon_dnd_unread,
         widget = wibox.widget.imagebox,
+        visible =  not (args.autohide or false),
     }
 
     widget.image = widget.icon_empty
@@ -231,6 +232,9 @@ return function(args)
             count > 0 and 'unread' or 'empty'
         )]
         no_notification_text.visible = not (count > 0)
+        if args.autohide then
+            widget.visible = count > 0 or Vars.do_not_disturb
+        end
     end)
 
     naughty.connect_signal("added", function(n)
