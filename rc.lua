@@ -59,6 +59,57 @@ Vars.main_menu = require("widgets.menu") {
     placement = awful.placement.next_to_mouse,
 }
 
+Vars.tags = {
+    {
+        text = "Home",
+        icon = beautiful.tag_icon.home,
+    },
+    {
+        text = "Internet",
+        icon = beautiful.tag_icon.internet,
+    },
+    {
+        text = "Code",
+        icon = beautiful.tag_icon.code,
+    },
+    {
+        text = "Office",
+        icon = beautiful.tag_icon.office,
+    },
+    {
+        text = "Media",
+        icon = beautiful.tag_icon.media,
+    },
+    {
+        text = "Art",
+        icon = beautiful.tag_icon.art,
+    },
+    {
+        text = "Games",
+        icon = beautiful.tag_icon.games,
+    },
+    {
+        text = "Misc",
+        icon = beautiful.tag_icon.default,
+    },
+    {
+        text = "Chat",
+        icon = beautiful.tag_icon.chat,
+    },
+}
+
+for _,t in ipairs(Vars.tags) do
+    t.action = function()
+        local screen = awful.screen.focused()
+        local tag = screen.tags[_]
+        if tag then
+            tag:view_only()
+            tag:emit_signal("property::tag_changed")
+        end
+    end
+    t.recolor_icon = true
+end
+
 -- CONFIG ---------------------------------------------------------------------
 require("awful.autofocus")
 require("keymaps")
@@ -134,10 +185,10 @@ screen.connect_signal("request::desktop_decoration", function(s)
             name = "games",
             properties = {
                 icon = beautiful.tag_icon.games,
-                layout = l.max.fullscreen,
+                layout = l.max,
                 layouts = {
                     l.tile,
-                    l.max.fullscreen,
+                    l.max,
                 },
                 master_width_factor = 0.725,
             }
@@ -300,6 +351,7 @@ end
 awful.spawn.once("xmodmap " .. os.getenv("HOME") .. "/.xmodmap")
 awful.spawn.single_instance("picom -b")
 awful.spawn.single_instance("wactions")
+awful.spawn.single_instance("/usr/bin/steam-runtime %U")
 
 -- OTHERS ---------------------------------------------------------------------
 Vars.scratchpad = bling.module.scratchpad:new {

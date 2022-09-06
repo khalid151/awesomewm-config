@@ -39,6 +39,23 @@ screen.connect_signal("request::desktop_decoration", function(s)
         screen = s,
     }
 
+    local tags_menu = widgets.menu {
+        items = Vars.tags,
+        icon_margins = 5,
+        font = beautiful.task_switcher_font,
+        shape = beautiful.rounded_rect,
+        x = 5,
+        y = beautiful.bar_height,
+        fg_normal = beautiful.task_switcher_fg,
+        bg_normal = beautiful.task_switcher_bg,
+        fg_focus = beautiful.task_switcher_bg,
+        bg_focus = beautiful.colors.color8,
+        height = 30,
+        width = 80,
+        autohide = true,
+        screen = s,
+    }
+
     if Vars.environment == "laptop" then
         battery = widgets.battery {
             icons = beautiful.battery_icons,
@@ -100,7 +117,10 @@ screen.connect_signal("request::desktop_decoration", function(s)
     s.bar:setup {
         {
             modules.task_switcher {
-                action = function() launcher_menu:toggle() end,
+                buttons = {
+                    awful.button({}, 1, function() tags_menu:toggle() end),
+                    awful.button({}, 3, function() launcher_menu:toggle() end),
+                },
                 font = beautiful.task_switcher_font,
                 bg = beautiful.task_switcher_bg,
                 fg = beautiful.task_switcher_fg,
