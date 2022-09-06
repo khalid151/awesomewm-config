@@ -125,17 +125,6 @@ return function(args)
                 icon.opacity = icon.client.minimized and 0.4 or 1
                 self:get_children_by_id('indicator')[1].visible = c == client.focus
                 self:get_children_by_id('indicator_highlight')[1].visible = c == client.focus
-
-                -- Add tooltip for titles
-                awful.tooltip {
-                    objects = {self:get_children_by_id('icon_container')[1]},
-                    mode = 'mouse',
-                    margins = 5,
-                    delay_show = 0.5,
-                    preferred_positions = "bottom",
-                    preferred_alignments = 'middle',
-                    timer_function = function() return c.name end
-                }
             end,
             update_callback = function(self, c, index, clientlist)
                 self:get_children_by_id('indicator')[1].visible = c == client.focus
@@ -157,6 +146,7 @@ return function(args)
     }
 
     local tag_icon_launcher = wibox.widget {
+        buttons = args.buttons,
         widget = wibox.widget.imagebox,
     }
 
@@ -244,16 +234,6 @@ return function(args)
 
     -- Emit this signal to set tag icons
     tag.emit_signal("property::tag_changed")
-
-    -- Optional click action
-    if args.action then
-        tag_icon_launcher:connect_signal("button::release", function(_, _, _, button)
-            if button == 1 then
-                args.action()
-            end
-        end)
-    end
-
     tag_task_separator.visible = client.focus ~= nil
 
     return widget
