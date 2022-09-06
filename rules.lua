@@ -89,6 +89,7 @@ ruled.client.connect_signal("request::rules", function()
             class = { "firefox", "Chromium-browser-chromium" },
             instance = { "brave-browser" },
         },
+        except = { type = "dialog" },
         properties = {
             tag = "internet",
             screen = 1,
@@ -130,6 +131,7 @@ ruled.client.connect_signal("request::rules", function()
                 "krita",
             },
         },
+        except = { type = "dialog" },
         properties = {
             tag = "art",
             callback = function(c)
@@ -165,22 +167,26 @@ ruled.client.connect_signal("request::rules", function()
             titlebars_enabled = false,
         },
     }
-    ruled.client.append_rule {
-        id = 'games',
-        rule_any = { class = { "steam_app", "Chowdren" } },
-        properties = {
-            tag = "games",
-            callback = function(c)
-                -- Prevent games from minimizing on tag change
-                c:connect_signal("property::minimized", function(_c)
-                    if _c.minimized then
-                        _c.minimized = false
-                        _c.below = true
-                    end
-                end)
-            end
-        }
-    }
+    --ruled.client.append_rule {
+        --id = 'games',
+        --rule_any = { class = {
+            --"steam_app",
+            --"Chowdren",
+            --}
+        --},
+        --properties = {
+            --tag = "games",
+            --callback = function(c)
+                ---- Prevent games from minimizing on tag change
+                --c:connect_signal("property::minimized", function(_c)
+                    --if _c.minimized then
+                        --_c.minimized = false
+                        --_c.below = true
+                    --end
+                --end)
+            --end
+        --}
+    --}
     ruled.client.append_rule {
         id = 'android-studio',
         rule = {
@@ -190,6 +196,14 @@ ruled.client.connect_signal("request::rules", function()
         properties = {
             placement = awful.placement.no_offscreen,
         }
+    }
+    ruled.client.append_rule {
+        rule = {
+            name = "Android Emulator.*",
+        },
+        properties = {
+            border_width = 0,
+        },
     }
     ruled.client.append_rule {
         id = 'volume',
@@ -204,7 +218,7 @@ ruled.client.connect_signal("request::rules", function()
             callback = function(c)
                 local place = function()
                     c.height = 400
-                    c.width = 400
+                    c.width = 500
                     awful.placement.top_right(c, {
                         offset = {
                             x = -5,
@@ -229,5 +243,11 @@ ruled.client.connect_signal("request::rules", function()
             width = 512,
             height = 512,
         }
+    }
+    ruled.client.append_rule {
+        rule = { class = "realvnc-vncserverui-service" },
+        properties = {
+            minimized = true,
+        },
     }
 end)
