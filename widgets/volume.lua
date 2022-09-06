@@ -11,7 +11,11 @@ return function(args)
 
     volume.manual_update = function(self, percent, _)
         self.held_percent = percent
+        if not percent then
+            return
+        end
         self:set_text(percent .. '%')
+
         if not self.muted then
             local index = math.ceil((percent * #self.icons.level)/100)
             index = index == 0 and 1 or index
