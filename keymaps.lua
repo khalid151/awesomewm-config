@@ -93,9 +93,9 @@ awful.keyboard.append_global_keybindings(add_keybindings {
     {"super+shift+n", function() naughty.destroy_all_notifications(); awesome.emit_signal("modules::notification_clear") end, "Dismiss notifications", "Desktop"},
     {"super+shift+s", function() Vars.pa_volume:toggle() end, "Toggle volume controls panel", "Desktop"},
     -- Media
-    {"XF86AudioPlay", spawn("playerctl play-pause"), "Play\\Pause music", "Media"},
-    {"XF86AudioNext", spawn("playerctl next"), "Next track", "Media"},
-    {"XF86AudioPrev", spawn("playerctl next"), "Previous track", "Media"},
+    {"XF86AudioPlay", spawn("playerctl -p spotify play-pause"), "Play\\Pause music", "Media"},
+    {"XF86AudioNext", spawn("playerctl -p spotify next"), "Next track", "Media"},
+    {"XF86AudioPrev", spawn("playerctl -p spotify previous"), "Previous track", "Media"},
     -- Client
     {"super+j", function() awful.client.focus.byidx(1) end, "Focus next client", "Client"},
     {"super+k", function() awful.client.focus.byidx(-1) end, "Focus previous client", "Client"},
