@@ -140,14 +140,30 @@ screen.connect_signal("request::desktop_decoration", function(s)
         {
             {
                 {
-                    {
-                        rhs_bar_widgets,
-                        margins = beautiful.widget_icon_margin,
-                        widget = wibox.container.margin
+                    modules.media_player {
+                        autohide = true,
+                        screen = s,
+                        shape = beautiful.rounded_rect,
+                        placement = function(d)
+                            return awful.placement.top_right(d, {
+                                offset = {
+                                    x = -5,
+                                    y = beautiful.bar_height + 5,
+                                }
+                            })
+                        end,
                     },
-                    bg = beautiful.bar_bg,
-                    shape = beautiful.rounded_rect,
-                    widget = wibox.container.background,
+                    {
+                        {
+                            rhs_bar_widgets,
+                            margins = beautiful.widget_icon_margin,
+                            widget = wibox.container.margin
+                        },
+                        bg = beautiful.bar_bg,
+                        shape = beautiful.rounded_rect,
+                        widget = wibox.container.background,
+                    },
+                    layout = wibox.layout.fixed.horizontal,
                 },
                 margins = 3,
                 widget = wibox.container.margin
