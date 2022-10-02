@@ -69,6 +69,12 @@ theme.rounded_rect = function(cr, width, height)
     gears.shape.rounded_rect(cr, width, height, 5)
 end
 
+theme.custom_rounded_rect = function(radius)
+    return function(cr, width, height)
+        gears.shape.rounded_rect(cr, width, height, radius)
+    end
+end
+
 -- Bar config -----------------------------------------------------------------
 theme.bar = "bar.default"
 theme.bar_height = 35
@@ -231,6 +237,12 @@ theme.brightness_icons = {
 theme.arrow_icon_left = icons.misc .. 'arrow_left.png'
 theme.arrow_icon_right = icons.misc .. 'arrow_right.png'
 theme.distro_icon = icons.misc .. 'arch.png'
+
+-- Layout ---------------------------------------------------------------------
+theme.layout_tile = beautiful.theme_path .. '/layout/tile_icon.png'
+theme.layout_tilebottom = beautiful.theme_path .. '/layout/tile_bottom_icon.png'
+theme.layout_max = beautiful.theme_path .. '/layout/max_icon.png'
+theme.layout_floating = beautiful.theme_path .. '/layout/float_icon.png'
 
 -- Others ---------------------------------------------------------------------
 theme.wacom_focus = true

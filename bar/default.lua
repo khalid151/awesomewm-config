@@ -78,6 +78,21 @@ screen.connect_signal("request::desktop_decoration", function(s)
         brightness,
         battery,
         widgets.space,
+        {
+            {
+                awful.widget.layoutbox {
+                    screen = s,
+                    buttons = {
+                        awful.button({ }, 1, function() awful.layout.inc(1) end),
+                    },
+                },
+                margins = 3,
+                widget = wibox.container.margin,
+            },
+            bg = beautiful.task_switcher_bg,
+            shape = beautiful.custom_rounded_rect(3),
+            widget = wibox.container.background,
+        },
         spacing = 2,
         layout = wibox.layout.fixed.horizontal,
     }
