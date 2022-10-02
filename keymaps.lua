@@ -55,7 +55,11 @@ awful.keyboard.append_global_keybindings(add_keybindings {
     {"super+control+k", function() awful.client.incwfact(WIDTH_FACTOR) end, "Increase window width factor", "Layout"},
     {"super+control+j", function() awful.client.incwfact(-1 * WIDTH_FACTOR) end, "Decrease window width factor", "Layout"},
     -- Tag
-    {"super+Tab", function() awful.tag.history.restore(); tag.emit_signal("property::tag_changed") end, "Toggle last two tags", "Tag"},
+    {"super+Tab", function()
+        awful.tag.history.restore()
+        local tag = awful.screen.focused().selected_tag
+        tag:emit_signal("property::tag_changed")
+    end, "Toggle last two tags", "Tag"},
     awful.key {
         modifiers = { keys.super },
         keygroup = "numrow",
