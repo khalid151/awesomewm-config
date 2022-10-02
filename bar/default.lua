@@ -65,10 +65,23 @@ screen.connect_signal("request::desktop_decoration", function(s)
         brightness = widgets.brightness { icons = beautiful.brightness_icons }
     end
 
-    local taglist = widgets.taglist {
-        screen = s,
-        active = beautiful.taglist_active,
-        inactive = beautiful.taglist_inactive,
+    local taglist = wibox.widget {
+        {
+            {
+                widgets.taglist {
+                    screen = s,
+                    active = beautiful.taglist_active,
+                    inactive = beautiful.taglist_inactive,
+                },
+                margins = 5,
+                widget = wibox.container.margin,
+            },
+            bg = beautiful.bar_bg .. 'ce',
+            shape = beautiful.custom_rounded_rect(20),
+            widget = wibox.container.background,
+        },
+        margins = 5,
+        widget = wibox.container.margin,
     }
     taglist.opacity = 0
 
@@ -148,7 +161,11 @@ screen.connect_signal("request::desktop_decoration", function(s)
             widget = wibox.container.margin
         },
         {
-            textclock,
+            {
+                textclock,
+                halign = 'center',
+                widget = wibox.container.place,
+            },
             taglist,
             layout = wibox.layout.stack
         },
