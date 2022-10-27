@@ -127,4 +127,19 @@ helper.insert_into_table_by_id = function(table, items, id)
     rec(table, items, id)
 end
 
+helper.connect_hover_signal = function(args)
+    if type(args.widgets) == "table" then
+        for _,widget in ipairs(args.widgets) do
+            widget:connect_signal("mouse::enter", args.enter_action)
+            widget:connect_signal("mouse::leave", args.leave_action)
+        end
+    elseif args.widget ~= nil then
+        args.widget:connect_signal("mouse::enter", args.enter_action)
+        args.widget:connect_signal("mouse::leave", args.leave_action)
+    else
+        args.widgets:connect_signal("mouse::enter", args.enter_action)
+        args.widgets:connect_signal("mouse::leave", args.leave_action)
+    end
+end
+
 return helper

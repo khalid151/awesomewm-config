@@ -3,10 +3,11 @@ local wibox = require("wibox")
 local widgets = require("widgets")
 local gears = require("gears")
 local naughty = require("naughty")
+local connect_hover_signal = require("utils.helper").connect_hover_signal
 
 local beautiful = require("beautiful")
 
-local toggle_dnd = function()
+local toggle_dnd = function(w)
     Vars.do_not_disturb = not Vars.do_not_disturb
     awesome.emit_signal("modules::notification_dnd")
 end
@@ -18,52 +19,76 @@ end
 
 local default_template = {
     {
-        -- the whole notification
         {
+            -- app name and time
+            {
+                id = "notification_info",
+                {
+                    forced_width = 5,
+                    widget = wibox.container.background,
+                },
+                {
+                    id = "app_name_role",
+                    font = "sans bold 8",
+                    widget = wibox.widget.textbox,
+                },
+                {
+                    id = 'time_role',
+                    font = "sans 8",
+                    widget = wibox.widget.textbox,
+                },
+                opacity = 0.9,
+                forced_height = 12,
+                spacing = 5,
+                layout = wibox.layout.fixed.horizontal,
+            },
+            -- rest of the notification
             {
                 {
                     {
-                        id = 'icon_role',
-                        widget = wibox.widget.imagebox,
+                        {
+                            id = 'icon_role',
+                            widget = wibox.widget.imagebox,
+                        },
+                        margins = 5,
+                        widget = wibox.container.margin,
                     },
-                    margins = 5,
-                    widget = wibox.container.margin,
-                },
-                forced_width = beautiful.notification_icon_size,
-                halign = 'center',
-                valign = 'top',
-                widget = wibox.container.place,
-            },
-            {
-                {
-                    id = 'title_role',
-                    font = beautiful.notification_title_font,
-                    widget = wibox.widget.textbox,
+                    forced_width = beautiful.notification_icon_size,
+                    halign = 'center',
+                    valign = 'top',
+                    widget = wibox.container.place,
                 },
                 {
-                    id = 'message_role',
-                    font = beautiful.notification_font,
-                    widget = wibox.widget.textbox,
+                    {
+                        id = 'title_role',
+                        font = beautiful.notification_title_font,
+                        widget = wibox.widget.textbox,
+                    },
+                    {
+                        {
+                            id = 'message_role',
+                            font = beautiful.notification_font,
+                            widget = wibox.widget.textbox,
+                        },
+                        width = beautiful.notification_width - beautiful.notification_icon_size - 25,
+                        widget = wibox.container.constraint,
+                    },
+                    spacing = 2,
+                    layout = wibox.layout.fixed.vertical,
                 },
-                spacing = 2,
-                layout = wibox.layout.fixed.vertical,
+                layout = wibox.layout.align.horizontal,
             },
-            layout = wibox.layout.fixed.horizontal,
+            layout = wibox.layout.fixed.vertical,
         },
+        nil,
         {
-            {
-                {
-                    id = 'time_role',
-                    widget = wibox.widget.textbox,
-                },
-                valign = 'top',
-                halign = 'right',
-                widget = wibox.container.place,
-            },
-            right = 2,
-            widget = wibox.container.margin,
+            id = "dismiss_button",
+            text = "",
+            opacity = 0.9,
+            forced_width = 15,
+            widget = wibox.widget.textbox,
         },
-        layout = wibox.layout.stack,
+        layout = wibox.layout.align.horizontal,
     },
     shape = beautiful.notification_shape,
     fg = beautiful.notification_fg_normal,
@@ -75,10 +100,29 @@ local default_template = {
 
 return function(args)
     -- Widgets
+    local dnd_toggle_button = wibox.widget {
+        text = "",
+        font = "monospace " .. (args.icon_size or 20) - 2,
+        widget = wibox.widget.textbox,
+        buttons = {awful.button({}, 1, nil, toggle_dnd)},
+        opacity = 0.6,
+    }
+    local dismiss_all_button = wibox.widget {
+        text = "",
+        font = "monospace " .. (args.icon_size or 20),
+        widget = wibox.widget.textbox,
+        buttons = {awful.button({}, 1, nil, dismiss_notifications)},
+        opacity = 0.6,
+    }
+    connect_hover_signal {
+        widgets = { dnd_toggle_button, dismiss_all_button },
+        enter_action = function(w) w.opacity = 1 end,
+        leave_action = function(w) w.opacity = 0.6 end,
+    }
     local header = {
         {
             {
-                text = " Notification Center",
+                text = " Notifications",
                 font = beautiful.notification_center_header_font,
                 widget = wibox.widget.textbox,
 
@@ -86,19 +130,9 @@ return function(args)
             nil,
             {
                 {
-                    {
-                        image = args.icon_dnd
-                            or beautiful.notification_center_header_icon_dnd,
-                        widget = wibox.widget.imagebox,
-                        buttons = {awful.button({}, 1, nil, toggle_dnd)},
-                    },
-                    {
-                        image = args.icon_dismiss
-                            or beautiful.notification_center_header_icon_dismiss,
-                        widget = wibox.widget.imagebox,
-                        buttons = {awful.button({}, 1, nil, dismiss_notifications)},
-                    },
-                    spacing = 2,
+                    dnd_toggle_button,
+                    dismiss_all_button,
+                    spacing = 5,
                     layout = wibox.layout.fixed.horizontal,
                 },
                 margins = 5,
@@ -186,8 +220,17 @@ return function(args)
             local notification = wibox.widget(args.notification_template or
             default_template)
 
+            local dismiss_this_notification = function()
+                notifications:remove_widget(notification)
+                if #notifications.widget:get_children() == 0 then
+                    popup.visible = false
+                end
+                widget:emit_signal("widget::update_icon")
+            end
+
             for k,v in pairs {
                 icon_role = {'icon', 'image'},
+                app_name_role = {'app_name', 'text'},
                 title_role = {'title', 'text'},
                 message_role = {'message', 'text'},
                 time_role = {'time', 'text'},
@@ -200,16 +243,17 @@ return function(args)
 
             notification.id = n.id
 
+            local info = notification:get_children_by_id("notification_info")[1]
+            info.opacity = 0.5
+            connect_hover_signal {
+                widget = notification,
+                enter_action = function() info.opacity = 1 end,
+                leave_action = function() info.opacity = 0.5 end,
+            }
+
             -- TODO: handle buttons
-            notification:connect_signal("button::release", function(_, _, _, button)
-                if button == 3 then
-                    notifications:remove_widget(notification)
-                    if #notifications.widget:get_children() == 0 then
-                        popup.visible = false
-                    end
-                    widget:emit_signal("widget::update_icon")
-                end
-            end)
+            local dismiss_button = notification:get_children_by_id("dismiss_button")[1]
+            dismiss_button.buttons = { awful.button({ }, 1, dismiss_this_notification) }
 
             notifications:add_widget(notification)
             widget:emit_signal("widget::update_icon")
@@ -235,6 +279,7 @@ return function(args)
         if args.autohide then
             widget.visible = count > 0 or Vars.do_not_disturb
         end
+        dnd_toggle_button.text = Vars.do_not_disturb and "" or ""
     end)
 
     naughty.connect_signal("added", function(n)
