@@ -355,8 +355,8 @@ awful.spawn.single_instance("/usr/bin/steam-runtime %U")
 
 -- OTHERS ---------------------------------------------------------------------
 Vars.scratchpad = bling.module.scratchpad:new {
-    command = "alacritty --class ,Scratchpad --working-directory ~ -e tmux",
-    rule = { class = "Scratchpad" },
+    command = "alacritty --class Scratchpad --working-directory ~ -e tmux",
+    rule = { instance = "Scratchpad" },
     sticky = true,
     floating = true,
     geometry = {x=0, y=beautiful.bar_height+5, height=320, width=600},

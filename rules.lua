@@ -45,7 +45,7 @@ ruled.client.connect_signal("request::rules", function()
         }
     }
     ruled.client.append_rule {
-        rule = { class = "Scratchpad" },
+        rule = { instance = "Scratchpad" },
         properties = {
             buttons = { focus_button },
             skip_taskbar = true,
